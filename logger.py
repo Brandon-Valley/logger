@@ -14,7 +14,7 @@ import os.path
 # import os
 #   
 # full_path = os.path.realpath(__file__)
-# csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv'
+# csvPath =  os.path.dirname(full_path) + '\\NEW_CSV_MADE_BY_LOGGER.csv'
 
 #------------------------------------------------------PUBLIC------------------------------------------------------#
 
@@ -27,18 +27,25 @@ import os.path
 #                     {'Time/Date': '12:35pm on tuesday',
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
-def logList(dataDictList, csvPath):       
+def logList(dataDictList, csvPath, wantBackup = True):       
     #read the csv into a list of dicts (one dict for each row)
     csvData = readCSV(csvPath)  
     
     #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
     if not formatsMatch(dataDictList[0], csvData):
-        backup(csvData, csvPath)
+        if wantBackup == True:
+            backup(csvData, csvPath)
         csvData = []
      
     #add the data to be logged to the list of csv data
     for dataDict in dataDictList:
+            #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        for key, data in dataDict.items():
+            if type(data) == str:
+                data = data.encode('ascii', 'ignore')
         csvData.append(dataDict) 
+        
+    
         
     #write it all back to the csv    
     write2CSV(csvData, csvPath)       
@@ -51,7 +58,7 @@ def logList(dataDictList, csvPath):
 #                 'Tweet':     'my name is sagman bardlileriownoaosnfo'}
 
 
-def logSingle(dataDict, csvPath):
+def logSingle(dataDict, csvPath, wantBackup = True):
     #check if file already exists, if not, make it
     try:#try is safer than isfile()
         #read the csv into a list of dicts (one dict for each row) 
@@ -59,9 +66,10 @@ def logSingle(dataDict, csvPath):
         
         #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
         if not formatsMatch(dataDict, csvData):
-            backup(csvData, csvPath)
-            csvData = []
-            
+            if wantBackup == True:
+                backup(csvData, csvPath)
+            csvData = []  
+               
     except:
         csvData = []
         
@@ -76,9 +84,9 @@ def logSingle(dataDict, csvPath):
     #write it all back to the csv    
     write2CSV(csvData, csvPath) 
 
-#------------------------------------------------------PRIVATE------------------------------------------------------#
 
-
+#returns a list of dicts
+#each element of the list is dict with entries like {header_name: data}
 def readCSV(csvPath):
     dataDictList = []
     
