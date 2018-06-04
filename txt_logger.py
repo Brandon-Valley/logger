@@ -32,8 +32,7 @@ def overwriteVarsSimple(filePath, logDict, headerOrderList, headerMark = DEFAULT
     f = open(filePath, 'w')
     
     for header in headerOrderList:
-        line = header + headerMark + logDict[header]
-        f.write(line + '\n')
+        f.write(header + headerMark + logDict[header] + '\n') 
         
     f.close()
     
@@ -67,48 +66,67 @@ def overwriteVars(filePath, logDict, headerOrderList = None, headerMark = DEFAUL
     
     if headerOrderList == None:
         for header, value in logDict.items():
-            line = header + headerMark + logDict[header]
-            f.write(line + '\n') 
+            f.write(header + headerMark + logDict[header] + '\n')  
     else:
         for header in headerOrderList:
-            line = header + headerMark + logDict[header]
-            f.write(line + '\n')     
+            f.write(header + headerMark + logDict[header] + '\n')     
                 
     f.close()
     
     
     
     
+# Original .TXT FILE: 
+# 
+#     nameA: Harry
+#     nameB: Bob
+#     nameC: Mark
+#     nameD: Captain Falcon
+#
 # INPUT:
 #  
-#     headerOrderList = ['color1', 'color2', 'color3']    
-#         
 #     logDict = { 'color1': 'Blue',
 #                 'color2': 'Green',     
-#                 'color3': 'Red'}  
+#                 'color3': 'Dark Red',
+#                 'nameB  : 'MARRY}  
+#
+#     headerOrderList = ['nameA', 'color1', 'color2', 'nameB', 'nameC', 'color3', 'nameD']     (optional but without it, any new lines 
+#                                                                                               added will be appended to the end randomly)
+# Final .TXT FILE:
 # 
-# .TXT FILE:
-# 
+#     nameA: Harry
 #     color1: Blue
 #     color2: Green
+#     nameB: MARRY
+#     nameC: Mark
 #     color3: Red
+#     nameD: Captain Falcon
 #
-# creates new file or overwrites existing existing file
+# changes values of headers already in the file, and appends lines with new headers to the end, or creates new file if dosn't already exist
 def logVars(filePath, logDict, headerOrderList = None, headerMark = DEFAULT_HEADER_MARK):
+    try:
+        ogLogDict, ogHeaderOrderList = readVars(filePath, True)
+    except:# if file dosn't exist yet
+        ogLogDict = {}
+        ogHeaderOrderList = []
+    
     f = open(filePath, 'w')
     
-#     for header in headerOrderList:#```````````````````````````````````````````````````````````````````````````````````````````````
-#         line = header + headerMark + logDict[header]
-#         f.write(line + '\n')
+    #add everything without a matching header to logDict
+    for header, value in ogLogDict.items():
+        if header not in logDict:
+            logDict[header] = value
 
     if headerOrderList == None:
+        for header in ogHeaderOrderList:
+            f.write(header + headerMark + logDict[header] + '\n')
+            del logDict[header] 
+        
         for header, value in logDict.items():
-            line = header + headerMark + logDict[header]
-            f.write(line + '\n') 
+            f.write(header + headerMark + logDict[header] + '\n') 
     else:
         for header in headerOrderList:
-            line = header + headerMark + logDict[header]
-            f.write(line + '\n') 
+            f.write(header + headerMark + logDict[header] + '\n')  
         
     f.close()
     
@@ -159,11 +177,6 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
     
     
     
-def editVars(filePath, logDict, headerMark = DEFAULT_HEADER_MARK):
-    ogLogDict, headerOrderList = readVars(filePath, True, headerMark = DEFAULT_HEADER_MARK)
-    
-    
-    
     
     
 filename0 = 'examples/txt_logger_examples/colorList.txt'
@@ -185,13 +198,12 @@ logDict1 = {'nameA': 'Harry',
 
 
 logVars(filename0, logDict0, headerOrderList0)
-logVars(filename1, logDict1,)
-
 resultDict0, resultHeaderOrderList0 = readVars(filename0, True)
 print('resultDict0: ', resultDict0)
 print('resultHeaderOrderList0: ', resultHeaderOrderList0)
 print('')
 
+logVars(filename1, logDict1,)
 resultDict1 = readVars(filename1)
 print('resultDict1: ', resultDict1)
 print('')
