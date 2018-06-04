@@ -178,40 +178,40 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
     
     
     
-    
-filename0 = 'examples/txt_logger_examples/colorList.txt'
-   
-headerOrderList0 = ['color1', 'color2', 'color3']    
-    
-logDict0 = {'color1': 'Blue',
-            'color2': 'Green',     
-            'color3': 'Dark Red'}
-
-    
-filename1 = 'examples/txt_logger_examples/nameList.txt'
-
-logDict1 = {'nameA': 'Harry',
-            'nameB': 'Bob',
-            'nameC': 'Mark',
-            'nameD': 'Captain Falcon'}
-
-
-
-logVars(filename0, logDict0, headerOrderList0)
-resultDict0, resultHeaderOrderList0 = readVars(filename0, True)
-print('resultDict0: ', resultDict0)
-print('resultHeaderOrderList0: ', resultHeaderOrderList0)
-print('')
-
-logVars(filename1, logDict1,)
-resultDict1 = readVars(filename1)
-print('resultDict1: ', resultDict1)
-print('')
-
-print('done!')
-    
-    
-    
+# if __name__ == '__main__':
+#     filename0 = 'examples/txt_logger_examples/colorList.txt'
+#        
+#     headerOrderList0 = ['color1', 'color2', 'color3']    
+#         
+#     logDict0 = {'color1': 'Blue',
+#                 'color2': 'Green',     
+#                 'color3': 'Dark Red'}
+#     
+#         
+#     filename1 = 'examples/txt_logger_examples/nameList.txt'
+#     
+#     logDict1 = {'nameA': 'Harry',
+#                 'nameB': 'Bob',
+#                 'nameC': 'Mark',
+#                 'nameD': 'Captain Falcon'}
+#     
+#     
+#     
+#     logVars(filename0, logDict0, headerOrderList0)
+#     resultDict0, resultHeaderOrderList0 = readVars(filename0, True)
+#     print('resultDict0: ', resultDict0)
+#     print('resultHeaderOrderList0: ', resultHeaderOrderList0)
+#     print('')
+#     
+#     logVars(filename1, logDict1,)
+#     resultDict1 = readVars(filename1)
+#     print('resultDict1: ', resultDict1)
+#     print('')
+#     
+#     print('done!')
+#         
+#         
+        
     
     
     
