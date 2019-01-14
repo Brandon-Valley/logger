@@ -30,13 +30,13 @@ import os.path
 def logList(dataDictList, csvPath, wantBackup = True):       
     csvData = buildCSVdata(dataDictList, csvPath)
      
-    #add the data to be logged to the list of csv data
-    for dataDict in dataDictList:
-            #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        for key, data in dataDict.items():
-            if type(data) == str:
-                data = data.encode('ascii', 'ignore')
-        csvData.append(dataDict) 
+#     #add the data to be logged to the list of csv data
+#     for dataDict in dataDictList:
+#             #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#         for key, data in dataDict.items():
+#             if type(data) == str:
+#                 data = data.encode('ascii', 'ignore')
+#         csvData.append(dataDict) 
         
     
         
@@ -54,13 +54,13 @@ def logList(dataDictList, csvPath, wantBackup = True):
 def logSingle(dataDict, csvPath, wantBackup = True):
     csvData = buildCSVdata(dataDict, csvPath)
         
-    #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    for key, data in dataDict.items():
-        if type(data) == str:
-            data = data.encode('ascii', 'ignore')
-        
-    #add the data to be logged to the list of csv data
-    csvData.append(dataDict) 
+#     #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#     for key, data in dataDict.items():
+#         if type(data) == str:
+#             data = data.encode('ascii', 'ignore')
+#         
+#     #add the data to be logged to the list of csv data
+#     csvData.append(dataDict) 
         
     #write it all back to the csv    
     write2CSV(csvData, csvPath) 
@@ -133,10 +133,23 @@ def formatsMatch(dataDict, csvData):
     return True
 
 
+#make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+def encodeDataDict(dataDict):         
+    for key, data in dataDict.items():
+        if type(data) == str:
+            data = data.encode('ascii', 'ignore')
+    return dataDict        
+
 
 def buildCSVdata(dataContainer, csvPath):
     #dataContainer can be dataDictList for logList or dataDict for logSingle
-    if type(dataContainer) is list:
+    if   type(dataContainer) is list:
+        logType = 'list'
+    elif type(dataContainer) is dict:
+        logType = 'single'
+    
+    
+    if logType == 'list':
         dataDict = dataContainer[0]
     else:
         dataDict = dataContainer
@@ -153,10 +166,24 @@ def buildCSVdata(dataContainer, csvPath):
             csvData = []     
     except:
         csvData = []
+        
+        
+    #encode data
+    if logType == 'list':
+        for dataDict in dataContainer:
+            csvData.append(encodeDataDict(dataDict))
+    else:
+        csvData.append(encodeDataDict(dataContainer))
     
     return csvData
 
- 
+
+
+
+
+
+
+print('TESTING IN LOGGER...')
 full_path = os.path.realpath(__file__)
 csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
  
@@ -172,9 +199,10 @@ tweetLogDictList = [{'Time/Date': '11:34pm on monday',
                      'User_Name': '@jill',     
                      'Tweet':     'my name is jill and im the worst'}] 
            
-logList(tweetLogDictList, csvPath)         
-# logSingle(tweetLogDict, csvPath)
-print('done')
+# logList(tweetLogDictList, csvPath)         
+logSingle(tweetLogDict, csvPath)
+print('DONE TESTING IN LOGGER')
+
           
 #         
         
