@@ -182,29 +182,29 @@ def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction):
 
 
 
-print('TESTING IN LOGGER...')
-full_path = os.path.realpath(__file__)
-csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
-
-wantBackup = True
-
-headerList = ['Time/Date', 'User_Name', 'Tweet']
- 
-tweetLogDict = {'Time/Date': '11:47pm on saterday',
-                'User_Name': '@sagmanblablatest3',     
-                'Tweet'    : 'my name is sagman'}
-  
-tweetLogDictList = [{'Time/Date': '11:34pm on monday',
-                     'User_Name': '@bob',     
-                     'Tweet':     'my name is bob and this is a test'},
-                      
-                    {'Time/Date': '12:35pm on tuesday',
-                     'User_Name': '@jill',     
-                     'Tweet':     'my name is jill and im the worst'}] 
-           
-# logList(tweetLogDictList, csvPath, wantBackup, headerList, 'overwrite')         
-logSingle(tweetLogDict, csvPath, wantBackup, headerList)
-print('DONE TESTING IN LOGGER')
+# print('TESTING IN LOGGER...')
+# full_path = os.path.realpath(__file__)
+# csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
+# 
+# wantBackup = True
+# 
+# headerList = ['Time/Date', 'User_Name', 'Tweet']
+#  
+# tweetLogDict = {'Time/Date': '11:47pm on saterday',
+#                 'User_Name': '@sagmanblablatest3',     
+#                 'Tweet'    : 'my name is sagman'}
+#   
+# tweetLogDictList = [{'Time/Date': '11:34pm on monday',
+#                      'User_Name': '@bob',     
+#                      'Tweet':     'my name is bob and this is a test'},
+#                       
+#                     {'Time/Date': '12:35pm on tuesday',
+#                      'User_Name': '@jill',     
+#                      'Tweet':     'my name is jill and im the worst'}] 
+#            
+# # logList(tweetLogDictList, csvPath, wantBackup, headerList, 'overwrite')         
+# logSingle(tweetLogDict, csvPath, wantBackup, headerList)
+# print('DONE TESTING IN LOGGER')
 
           
 #         
