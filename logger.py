@@ -9,6 +9,7 @@
 
 import csv
 import os.path
+import os
 
 # use this to get path
 # import os
@@ -27,8 +28,8 @@ import os.path
 #                     {'Time/Date': '12:35pm on tuesday',
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
-def logList(dataDictList, csvPath, wantBackup = True, headerList = None):       
-    csvData = buildCSVdata(dataDictList, csvPath, wantBackup)
+def logList(dataDictList, csvPath, wantBackup = True, headerList = None, overwriteAction = 'append'):       
+    csvData = buildCSVdata(dataDictList, csvPath, wantBackup, overwriteAction)
         
     write2CSV(csvData, csvPath, headerList)       
 
@@ -40,8 +41,8 @@ def logList(dataDictList, csvPath, wantBackup = True, headerList = None):
 #                 'Tweet':     'my name is sagman bardlileriownoaosnfo'}
 
 
-def logSingle(dataDict, csvPath, wantBackup = True, headerList = None):
-    csvData = buildCSVdata(dataDict, csvPath, wantBackup)
+def logSingle(dataDict, csvPath, wantBackup = True, headerList = None, overwriteAction = 'append'):
+    csvData = buildCSVdata(dataDict, csvPath, wantBackup, overwriteAction)
            
     write2CSV(csvData, csvPath, headerList) 
 
@@ -77,13 +78,13 @@ def write2CSV(logDictList, csvPath, headerList = None):
     with open(csvPath, 'wt', encoding='utf8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
         writer.writeheader()
-        
+         
         #build rowDictList
         rowDictList = []
         rdlPos = 0
         for logDict in logDictList:
             for header, data in logDict.items():
-                                    
+                                     
                 if rowDictList == [] or rdlPos > (len(rowDictList) - 1):
                     rowDictList.append({})
                 rowDictList[rdlPos][header] = data
@@ -94,7 +95,7 @@ def write2CSV(logDictList, csvPath, headerList = None):
                 writer.writerow(rowDict)
             except Exception as e:
                 raise TypeError('ERROR:  HeaderList does not match headers in dataDict, probably misspelled or forgot to add key:  ' + str(e))
-
+ 
     csvfile.close()
        
 
@@ -134,7 +135,7 @@ def encodeDataDict(dataDict):
     return dataDict        
 
 
-def buildCSVdata(dataContainer, csvPath, wantBackup):
+def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction):
     #dataContainer can be dataDictList for logList or dataDict for logSingle
     if   type(dataContainer) is list:
         logType = 'list'
@@ -158,6 +159,10 @@ def buildCSVdata(dataContainer, csvPath, wantBackup):
             if wantBackup == True:
                 backup(csvData, csvPath)
             csvData = []     
+            
+        if overwriteAction == 'overwrite':
+            csvData = []
+            
     except:
         csvData = []
         
@@ -187,8 +192,7 @@ headerList = ['Time/Date', 'User_Name', 'Tweet']
  
 tweetLogDict = {'Time/Date': '11:47pm on saterday',
                 'User_Name': '@sagmanblablatest3',     
-                'Tweet'    : 'my name is sagman',
-                'aaa': 'bbb'}
+                'Tweet'    : 'my name is sagman'}
   
 tweetLogDictList = [{'Time/Date': '11:34pm on monday',
                      'User_Name': '@bob',     
@@ -198,8 +202,8 @@ tweetLogDictList = [{'Time/Date': '11:34pm on monday',
                      'User_Name': '@jill',     
                      'Tweet':     'my name is jill and im the worst'}] 
            
-logList(tweetLogDictList, csvPath, wantBackup, headerList)         
-# logSingle(tweetLogDict, csvPath, wantBackup)
+# logList(tweetLogDictList, csvPath, wantBackup, headerList, 'overwrite')         
+logSingle(tweetLogDict, csvPath, wantBackup, headerList)
 print('DONE TESTING IN LOGGER')
 
           
