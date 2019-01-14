@@ -99,7 +99,6 @@ def write2CSV(logDictList, csvPath, headerList = None):
        
 
 def backup(csvData, csvPath):
-    print('called backup') #``````````````````````````````````````````````````````````````````````````````
     backupCount = 0
     sp = csvPath.split(".")
     backupPath = sp[0] + '_BACKUP_' + str(backupCount) + '.' + sp[1]
@@ -108,12 +107,10 @@ def backup(csvData, csvPath):
         backupCount += 1
         backupPath = sp[0] + '_BACKUP_' + str(backupCount) + '.' + sp[1]
     
-    print('backup path:', backupPath)#`````````````````````````````````````````````````````````````````````
     write2CSV(csvData, backupPath)
               
               
 def formatsMatch(dataDict, csvData):
-    print('in formatsMatch, dataDict, csvData: ', dataDict, csvData)#````````````````````````````````````````````````````````````````````
     #if the csv is empty, no need for a backup
     if csvData == []:
         return True
@@ -152,12 +149,9 @@ def buildCSVdata(dataContainer, csvPath, wantBackup):
         
     #check if file already exists, if not, make it
     try:#try is safer than isfile()
-        print('in try, csvPath: ' , csvPath)#``````````````````````````````````````````````````````````````````````````````````````````
         #read the csv into a list of dicts (one dict for each row) 
         csvData = readCSV(csvPath)  
-        print('read csv')#1```````````````````````````````````````````````````````````````````````````````````````````````````````
         
-        print(formatsMatch(dataDict, csvData))#`````````````````````````````````````````````````````````````````````````````````````````
         
         #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
         if not formatsMatch(dataDict, csvData):
