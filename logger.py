@@ -28,17 +28,7 @@ import os.path
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
 def logList(dataDictList, csvPath, wantBackup = True):       
-    #read the csv into a list of dicts (one dict for each row) if it exists
-    if os.path.isfile(csvPath):
-        csvData = readCSV(csvPath) 
-    else:
-        csvData = [] 
-    
-    #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
-    if not formatsMatch(dataDictList[0], csvData):
-        if wantBackup == True:
-            backup(csvData, csvPath)
-        csvData = []
+    csvData = buildCSVdata(dataDictList, csvPath)
      
     #add the data to be logged to the list of csv data
     for dataDict in dataDictList:
@@ -62,19 +52,7 @@ def logList(dataDictList, csvPath, wantBackup = True):
 
 
 def logSingle(dataDict, csvPath, wantBackup = True):
-    #check if file already exists, if not, make it
-    try:#try is safer than isfile()
-        #read the csv into a list of dicts (one dict for each row) 
-        csvData = readCSV(csvPath)  
-        
-        #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
-        if not formatsMatch(dataDict, csvData):
-            if wantBackup == True:
-                backup(csvData, csvPath)
-            csvData = []  
-               
-    except:
-        csvData = []
+    csvData = buildCSVdata(dataDict, csvPath)
         
     #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     for key, data in dataDict.items():
@@ -153,24 +131,50 @@ def formatsMatch(dataDict, csvData):
         if header not in csvData[0]:
             return False
     return True
+
+
+
+def buildCSVdata(dataContainer, csvPath):
+    #dataContainer can be dataDictList for logList or dataDict for logSingle
+    if type(dataContainer) is list:
+        dataDict = dataContainer[0]
+    else:
+        dataDict = dataContainer
+        
+    #check if file already exists, if not, make it
+    try:#try is safer than isfile()
+        #read the csv into a list of dicts (one dict for each row) 
+        csvData = readCSV(csvPath)  
+        
+        #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
+        if not formatsMatch(dataDict, csvData):
+            if wantBackup == True:
+                backup(csvData, csvPath)
+            csvData = []     
+    except:
+        csvData = []
+    
+    return csvData
+
  
-# full_path = os.path.realpath(__file__)
-# csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
-# 
-# tweetLogDict = {'Time/Date': '11:47pm on saterday',
-#                 'User_Name': '@sagmanblablatest3',     
-#                 'Tweet':     'my name is sagman'}
-#  
-# tweetLogDictList = [{'Time/Date': '11:34pm on monday',
-#                      'User_Name': '@bob',     
-#                      'Tweet':     'my name is bob and this is a test'},
-#                      
-#                     {'Time/Date': '12:35pm on tuesday',
-#                      'User_Name': '@jill',     
-#                      'Tweet':     'my name is jill and im the worst'}] 
-#           
-# logList(tweetLogDictList, csvPath)         
+full_path = os.path.realpath(__file__)
+csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
+ 
+tweetLogDict = {'Time/Date': '11:47pm on saterday',
+                'User_Name': '@sagmanblablatest3',     
+                'Tweet':     'my name is sagman'}
+  
+tweetLogDictList = [{'Time/Date': '11:34pm on monday',
+                     'User_Name': '@bob',     
+                     'Tweet':     'my name is bob and this is a test'},
+                      
+                    {'Time/Date': '12:35pm on tuesday',
+                     'User_Name': '@jill',     
+                     'Tweet':     'my name is jill and im the worst'}] 
+           
+logList(tweetLogDictList, csvPath)         
 # logSingle(tweetLogDict, csvPath)
+print('done')
           
 #         
         
