@@ -29,18 +29,7 @@ import os.path
 #                      'Tweet':     'my name is jill and im the worst'}]
 def logList(dataDictList, csvPath, wantBackup = True):       
     csvData = buildCSVdata(dataDictList, csvPath)
-     
-#     #add the data to be logged to the list of csv data
-#     for dataDict in dataDictList:
-#             #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#         for key, data in dataDict.items():
-#             if type(data) == str:
-#                 data = data.encode('ascii', 'ignore')
-#         csvData.append(dataDict) 
         
-    
-        
-    #write it all back to the csv    
     write2CSV(csvData, csvPath)       
 
 
@@ -53,16 +42,7 @@ def logList(dataDictList, csvPath, wantBackup = True):
 
 def logSingle(dataDict, csvPath, wantBackup = True):
     csvData = buildCSVdata(dataDict, csvPath)
-        
-#     #make sure data wont cause a unicode error - not efficient!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#     for key, data in dataDict.items():
-#         if type(data) == str:
-#             data = data.encode('ascii', 'ignore')
-#         
-#     #add the data to be logged to the list of csv data
-#     csvData.append(dataDict) 
-        
-    #write it all back to the csv    
+           
     write2CSV(csvData, csvPath) 
 
 
