@@ -27,10 +27,10 @@ import os.path
 #                     {'Time/Date': '12:35pm on tuesday',
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
-def logList(dataDictList, csvPath, wantBackup = True):       
+def logList(dataDictList, csvPath, wantBackup = True, headerList = None):       
     csvData = buildCSVdata(dataDictList, csvPath)
         
-    write2CSV(csvData, csvPath)       
+    write2CSV(csvData, csvPath, headerList)       
 
 
 #should try not to use much, its not very efficient, same thing as logList() but one dict at a time
@@ -40,10 +40,10 @@ def logList(dataDictList, csvPath, wantBackup = True):
 #                 'Tweet':     'my name is sagman bardlileriownoaosnfo'}
 
 
-def logSingle(dataDict, csvPath, wantBackup = True):
+def logSingle(dataDict, csvPath, wantBackup = True, headerList = None):
     csvData = buildCSVdata(dataDict, csvPath)
            
-    write2CSV(csvData, csvPath) 
+    write2CSV(csvData, csvPath, headerList) 
 
 
 #returns a list of dicts
@@ -65,12 +65,16 @@ def readCSV(csvPath):
     return dataDictList
 
 
-def write2CSV(logDictList, csvPath):
-    with open(csvPath, 'wt', encoding='utf8') as csvfile:
-        fieldnames = []
+def write2CSV(logDictList, csvPath, headerList):
+    # if headerList == None, then fieldnames will be in a random order
+    fieldnames = []
+    if headerList == None:
         for header, data in logDictList[0].items():
             fieldnames.append(header)
-
+    else:
+        fieldnames = headerList
+    
+    with open(csvPath, 'wt', encoding='utf8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
         writer.writeheader()
         
@@ -86,7 +90,11 @@ def write2CSV(logDictList, csvPath):
             rdlPos +=1
         #write rows
         for rowDict in rowDictList:
-            writer.writerow(rowDict)
+            try:
+                writer.writerow(rowDict)
+            except Exception as e:
+                raise TypeError('ERROR:  HeaderList does not match headers in dataDict, probably misspelled or forgot to add key:  ' + str(e))
+
     csvfile.close()
        
 
@@ -166,6 +174,10 @@ def buildCSVdata(dataContainer, csvPath):
 print('TESTING IN LOGGER...')
 full_path = os.path.realpath(__file__)
 csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
+
+wantBackup = True
+
+headerList = ['Time/Date', 'User_Name', 'Tweetq']
  
 tweetLogDict = {'Time/Date': '11:47pm on saterday',
                 'User_Name': '@sagmanblablatest3',     
@@ -179,8 +191,8 @@ tweetLogDictList = [{'Time/Date': '11:34pm on monday',
                      'User_Name': '@jill',     
                      'Tweet':     'my name is jill and im the worst'}] 
            
-# logList(tweetLogDictList, csvPath)         
-logSingle(tweetLogDict, csvPath)
+logList(tweetLogDictList, csvPath, wantBackup, headerList)         
+# logSingle(tweetLogDict, csvPath, wantBackup, headerList)
 print('DONE TESTING IN LOGGER')
 
           
