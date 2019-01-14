@@ -28,7 +28,7 @@ import os.path
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
 def logList(dataDictList, csvPath, wantBackup = True, headerList = None):       
-    csvData = buildCSVdata(dataDictList, csvPath)
+    csvData = buildCSVdata(dataDictList, csvPath, wantBackup)
         
     write2CSV(csvData, csvPath, headerList)       
 
@@ -41,7 +41,7 @@ def logList(dataDictList, csvPath, wantBackup = True, headerList = None):
 
 
 def logSingle(dataDict, csvPath, wantBackup = True, headerList = None):
-    csvData = buildCSVdata(dataDict, csvPath)
+    csvData = buildCSVdata(dataDict, csvPath, wantBackup)
            
     write2CSV(csvData, csvPath, headerList) 
 
@@ -65,7 +65,7 @@ def readCSV(csvPath):
     return dataDictList
 
 
-def write2CSV(logDictList, csvPath, headerList):
+def write2CSV(logDictList, csvPath, headerList = None):
     # if headerList == None, then fieldnames will be in a random order
     fieldnames = []
     if headerList == None:
@@ -99,18 +99,21 @@ def write2CSV(logDictList, csvPath, headerList):
        
 
 def backup(csvData, csvPath):
+    print('called backup') #``````````````````````````````````````````````````````````````````````````````
     backupCount = 0
     sp = csvPath.split(".")
-    backupPath = '_BACKUP_' + sp[0] + '_BACKUP_' + str(backupCount) + '.' + sp[1]
+    backupPath = sp[0] + '_BACKUP_' + str(backupCount) + '.' + sp[1]
     
     while(os.path.isfile(backupPath)):
         backupCount += 1
         backupPath = sp[0] + '_BACKUP_' + str(backupCount) + '.' + sp[1]
     
+    print('backup path:', backupPath)#`````````````````````````````````````````````````````````````````````
     write2CSV(csvData, backupPath)
               
               
 def formatsMatch(dataDict, csvData):
+    print('in formatsMatch, dataDict, csvData: ', dataDict, csvData)#````````````````````````````````````````````````````````````````````
     #if the csv is empty, no need for a backup
     if csvData == []:
         return True
@@ -118,6 +121,11 @@ def formatsMatch(dataDict, csvData):
     for header, data in dataDict.items():
         if header not in csvData[0]:
             return False
+        
+    for header in csvData[0]:
+        if header not in dataDict.keys():
+            return False
+        
     return True
 
 
@@ -129,7 +137,7 @@ def encodeDataDict(dataDict):
     return dataDict        
 
 
-def buildCSVdata(dataContainer, csvPath):
+def buildCSVdata(dataContainer, csvPath, wantBackup):
     #dataContainer can be dataDictList for logList or dataDict for logSingle
     if   type(dataContainer) is list:
         logType = 'list'
@@ -144,8 +152,12 @@ def buildCSVdata(dataContainer, csvPath):
         
     #check if file already exists, if not, make it
     try:#try is safer than isfile()
+        print('in try, csvPath: ' , csvPath)#``````````````````````````````````````````````````````````````````````````````````````````
         #read the csv into a list of dicts (one dict for each row) 
         csvData = readCSV(csvPath)  
+        print('read csv')#1```````````````````````````````````````````````````````````````````````````````````````````````````````
+        
+        print(formatsMatch(dataDict, csvData))#`````````````````````````````````````````````````````````````````````````````````````````
         
         #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
         if not formatsMatch(dataDict, csvData):
@@ -177,11 +189,12 @@ csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv'
 
 wantBackup = True
 
-headerList = ['Time/Date', 'User_Name', 'Tweetq']
+headerList = ['Time/Date', 'User_Name', 'Tweet']
  
 tweetLogDict = {'Time/Date': '11:47pm on saterday',
                 'User_Name': '@sagmanblablatest3',     
-                'Tweet':     'my name is sagman'}
+                'Tweet'    : 'my name is sagman',
+                'aaa': 'bbb'}
   
 tweetLogDictList = [{'Time/Date': '11:34pm on monday',
                      'User_Name': '@bob',     
@@ -192,7 +205,7 @@ tweetLogDictList = [{'Time/Date': '11:34pm on monday',
                      'Tweet':     'my name is jill and im the worst'}] 
            
 logList(tweetLogDictList, csvPath, wantBackup, headerList)         
-# logSingle(tweetLogDict, csvPath, wantBackup, headerList)
+# logSingle(tweetLogDict, csvPath, wantBackup)
 print('DONE TESTING IN LOGGER')
 
           
