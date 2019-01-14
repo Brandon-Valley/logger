@@ -28,8 +28,11 @@ import os.path
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
 def logList(dataDictList, csvPath, wantBackup = True):       
-    #read the csv into a list of dicts (one dict for each row)
-    csvData = readCSV(csvPath)  
+    #read the csv into a list of dicts (one dict for each row) if it exists
+    if os.path.isfile(csvPath):
+        csvData = readCSV(csvPath) 
+    else:
+        csvData = [] 
     
     #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
     if not formatsMatch(dataDictList[0], csvData):
