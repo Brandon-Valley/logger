@@ -19,6 +19,13 @@ import os
 
 #------------------------------------------------------PUBLIC------------------------------------------------------#
 
+# Backup / Overwrite Rules:
+#
+# if you try to log data that has a header that is not already in the existing CSV, the original will be deleted/backed up
+# if you set wantBackup = True, same goes for if you try to log data that does not include one of the headers that is present
+# in the already existing CSV !!!!! HOWEVER !!!!! you can get around this by including a header list that does include the missing
+# header, even if it is not present in your data that you are trying to log
+
 #logs a list of dicts, each dict = one row, dict = {columb header: data}
 #ex:
 # tweetLogDictList = [{'Time/Date': '11:34pm on monday',
@@ -29,7 +36,7 @@ import os
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}]
 def logList(dataDictList, csvPath, wantBackup = True, headerList = None, overwriteAction = 'append'):       
-    csvData = buildCSVdata(dataDictList, csvPath, wantBackup, overwriteAction)
+    csvData = buildCSVdata(dataDictList, csvPath, wantBackup, overwriteAction, headerList)
         
     write2CSV(csvData, csvPath, headerList)       
 
@@ -42,7 +49,7 @@ def logList(dataDictList, csvPath, wantBackup = True, headerList = None, overwri
 
 
 def logSingle(dataDict, csvPath, wantBackup = True, headerList = None, overwriteAction = 'append'):
-    csvData = buildCSVdata(dataDict, csvPath, wantBackup, overwriteAction)
+    csvData = buildCSVdata(dataDict, csvPath, wantBackup, overwriteAction, headerList)
            
     write2CSV(csvData, csvPath, headerList) 
 
@@ -112,17 +119,21 @@ def backup(csvData, csvPath):
     write2CSV(csvData, backupPath)
               
               
-def formatsMatch(dataDict, csvData):
+def formatsMatch(dataDict, csvData, headerList):
     #if the csv is empty, no need for a backup
     if csvData == []:
         return True
     
+    # if you are trying to log data with a header that is not in the
+    # existing csv or in the given header list, return False
     for header, data in dataDict.items():
-        if header not in csvData[0]:
+        if header not in csvData[0] and header not in headerList:
             return False
         
+    # if you are trying to log data that does not have one of the headers
+    # that are already in the existing CSV, AND isnt in the headerList, return False
     for header in csvData[0]:
-        if header not in dataDict.keys():
+        if header not in dataDict.keys() and header not in headerList:
             return False
         
     return True
@@ -136,7 +147,7 @@ def encodeDataDict(dataDict):
     return dataDict        
 
 
-def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction):
+def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction, headerList):
     #dataContainer can be dataDictList for logList or dataDict for logSingle
     if   type(dataContainer) is list:
         logType = 'list'
@@ -156,7 +167,7 @@ def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction):
         
         
         #check to make sure the csv's fieldnames matches the headerList, if not, create backup before overwriting
-        if not formatsMatch(dataDict, csvData):
+        if not formatsMatch(dataDict, csvData, headerList):
             if wantBackup == True:
                 backup(csvData, csvPath)
             csvData = []     
@@ -165,8 +176,7 @@ def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction):
             csvData = []
             
     except:
-        csvData = []
-        
+        csvData = []        
         
     #encode data
     if logType == 'list':
@@ -186,25 +196,25 @@ def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction):
 # print('TESTING IN LOGGER...')
 # full_path = os.path.realpath(__file__)
 # csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
-# 
+#   
 # wantBackup = True
-# 
-# headerList = ['Time/Date', 'User_Name', 'Tweet']
-#  
+#   
+# headerList = ['Time/Date', 'User_Name', 'Tweet', 'extra_header']
+#    
 # tweetLogDict = {'Time/Date': '11:47pm on saterday',
 #                 'User_Name': '@sagmanblablatest3',     
 #                 'Tweet'    : 'my name is sagman'}
-#   
+#     
 # tweetLogDictList = [{'Time/Date': '11:34pm on monday',
 #                      'User_Name': '@bob',     
 #                      'Tweet':     'my name is bob and this is a test'},
-#                       
+#                         
 #                     {'Time/Date': '12:35pm on tuesday',
 #                      'User_Name': '@jill',     
 #                      'Tweet':     'my name is jill and im the worst'}] 
-#            
-# # logList(tweetLogDictList, csvPath, wantBackup, headerList, 'overwrite')         
-# logSingle(tweetLogDict, csvPath, wantBackup, headerList)
+#              
+# # logList(tweetLogDictList, csvPath, wantBackup, headerList, 'append')         
+# logSingle(tweetLogDict, csvPath, wantBackup, headerList, 'append')
 # print('DONE TESTING IN LOGGER')
 
           
