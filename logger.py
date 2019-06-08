@@ -94,7 +94,8 @@ def write2CSV(logDictList, csvPath, headerList = None):
             try:
                 writer.writerow(rowDict)
             except Exception as e:
-                raise TypeError('ERROR:  HeaderList does not match headers in dataDict, probably misspelled or forgot to add key:  ' + str(e))
+                
+                raise TypeError('ERROR:  HeaderList does not match headers in dataDict, probably misspelled or forgot to add key:  ' + '\n' + str(e) + '\n' + 'fieldnames:  ' + str(fieldnames))
  
     csvfile.close()
        
