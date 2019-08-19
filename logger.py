@@ -6,10 +6,10 @@
 # it all will take a lot of time.  Because of this, the most efficient way to do logging is to build up a big list
 # of all the data you want to log, then logging it all at once.  Therefore you should try to always use
 # logList() instead of logSingle() 
-
+#
 import csv
 import os.path
-
+#
 # use this to get path
 # import os
 #   
