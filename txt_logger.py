@@ -172,6 +172,11 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
     else:
         return logDict
 
+
+def read(filePath):
+    with open(filePath) as textFile:  # can throw FileNotFoundError
+        return tuple(l.rstrip() for l in textFile.readlines())
+        
     
     
     
