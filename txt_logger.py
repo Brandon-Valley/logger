@@ -1,5 +1,18 @@
 # logger for .txt files
 
+''' [======- - - - -=================- All Utilities Standard -=================- - - - -======] '''
+# to allow for relative imports
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], os.path.dirname(os.path.abspath(__file__))))
+''' [======- - - - - - -=============- - - - -========- - - - -=============- - - - - - -======] '''
+
+
+
+
+
+
+
+from util_submodules import exception_utils
 
 
 
@@ -238,9 +251,11 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
     
     
     
-# if __name__ == '__main__':
+if __name__ == '__main__':
+    print('In Main:  txt_logger')
     
 #     write('teeeeeeeeeeest.txt', [2, ' sss dfsga ', '\n\n mdmsdonhf   '])
+    write('teeeeeeeeeeest.txt', 'sdiondfolwsdnoilfn')
     
     
 #     filename0 = 'examples/txt_logger_examples/colorList.txt'
@@ -276,7 +291,7 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
 #         
 #         
         
-    
+print('End of Main:  txt_logger')
     
     
     

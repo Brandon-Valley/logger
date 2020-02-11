@@ -1,3 +1,10 @@
+''' [======- - - - -=================- All Utilities Standard -=================- - - - -======] '''
+# to allow for relative imports
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], os.path.dirname(os.path.abspath(__file__))))
+''' [======- - - - - - -=============- - - - -========- - - - -=============- - - - - - -======] '''
+
+
 #Efficiency Tip:
 # from test.test_import import PycRewritingTests
 # every time you write something to a csv, it deletes everything in the csv, because of this, in order to log 
