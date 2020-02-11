@@ -33,15 +33,15 @@ import os
 # in the already existing CSV !!!!! HOWEVER !!!!! you can get around this by including a header list that does include the missing
 # header, even if it is not present in your data that you are trying to log
 
-#logs a list of dicts, each dict = one row, dict = {columb header: data}
+#logs a list of dicts, each dict = one row, dict = {column header: data}
 #ex:
-# tweetLogDictList = [{'Time/Date': '11:34pm on monday',
+# tweetLogDictList = [{'Time/Date': '11:34pm on Monday',
 #                      'User_Name': '@bob',     
 #                      'Tweet':     'my name is bob and this is a test'},
 #                     
-#                     {'Time/Date': '12:35pm on tuesday',
+#                     {'Time/Date': '12:35pm on Tuesday',
 #                      'User_Name': '@jill',     
-#                      'Tweet':     'my name is jill and im the worst'}]
+#                      'Tweet':     'my name is jill and I'm the worst'}]
 def logList(dataDictList, csvPath, wantBackup = True, headerList = None, overwriteAction = 'append'):       
     csvData = buildCSVdata(dataDictList, csvPath, wantBackup, overwriteAction, headerList)
         
@@ -89,7 +89,7 @@ def write2CSV(logDictList, csvPath, headerList = None):
     else:
         fieldnames = headerList
         
-    # if csvPath points to a file in dirs that dont exist, make the dirs
+    # if csvPath points to a file in dirs that don't exist, make the dirs
     parentDirPath = os.path.dirname(csvPath)
     if not os.path.exists(parentDirPath):
         os.makedirs(parentDirPath)
@@ -144,7 +144,7 @@ def formatsMatch(dataDict, csvData, headerList):
             return False
         
     # if you are trying to log data that does not have one of the headers
-    # that are already in the existing CSV, AND isnt in the headerList, return False
+    # that are already in the existing CSV, AND isn't in the headerList, return False
     for header in csvData[0]:
         if header not in dataDict.keys() and header not in headerList:
             return False

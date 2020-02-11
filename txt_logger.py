@@ -1,5 +1,3 @@
-# logger for .txt files
-
 ''' [======- - - - -=================- All Utilities Standard -=================- - - - -======] '''
 # to allow for relative imports
 import sys, os
@@ -12,7 +10,8 @@ sys.path.insert(1, os.path.join(sys.path[0], os.path.dirname(os.path.abspath(__f
 
 
 
-from util_submodules import exception_utils
+from util_submodules.exception_utils import exception_utils as eu
+# import util_submodules.exception_utils__ as eu
 
 
 
@@ -40,9 +39,7 @@ def read(filePath):
 #          elements can be any type, will be converted to str before writing
 
 def write(lines, filePath, write_mode = 'overwrite'):
-    
-    
-    
+    eu.error_if_param_invalid(write_mode, ['overwrite', 'append'])
     
     # convert to str
     if type(lines) == list:
@@ -53,7 +50,10 @@ def write(lines, filePath, write_mode = 'overwrite'):
         str_converted_lines = [str(lines)]
     
     # write lines to file
-    writeFile = open(filePath, "w") 
+    if   write_mode == 'overwrite':
+        writeFile = open(filePath, "w") 
+    elif write_mode == 'append':
+        writeFile = open(filePath, "a")
 
     for line_num, line in enumerate(str_converted_lines):
         writeFile.write(line)
