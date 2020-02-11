@@ -1,5 +1,8 @@
 # logger for .txt files
 
+
+
+
 DEFAULT_HEADER_MARK = ': '
 
 
@@ -18,23 +21,32 @@ def read(filePath):
         return tuple(l.rstrip() for l in textFile.readlines())
         
 
-# line_l = each element will be written as a new line in the txt file,
-#          line_l[0] will be first line in the file,
+# lines  = if not a list, will convert to string and write it as one line,
+#          each element will be written as a new line in the txt file,
+#          lines[0] will be first line in the file,
 #          elements can be any type, will be converted to str before writing
-def write(filePath, line_l):
-    # convert all elements to str
-    str_converted_line_l = []
-    for line in line_l:
-        str_converted_line_l.append(str(line))
+
+def write(lines, filePath, write_mode = 'overwrite'):
+    
+    
+    
+    
+    # convert to str
+    if type(lines) == list:
+        str_converted_lines = []
+        for line in lines:
+            str_converted_lines.append(str(line))
+    else:
+        str_converted_lines = [str(lines)]
     
     # write lines to file
     writeFile = open(filePath, "w") 
 
-    for line_num, line in enumerate(str_converted_line_l):
+    for line_num, line in enumerate(str_converted_lines):
         writeFile.write(line)
         
         # do not write newline if you just wrote the last line
-        if line_num != len(str_converted_line_l) - 1:
+        if line_num != len(str_converted_lines) - 1:
             writeFile.write('\n')
  
     writeFile.close() #to change file access modes 
