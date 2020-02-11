@@ -226,7 +226,7 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
     
     
     
-if __name__ == '__main__':
+# if __name__ == '__main__':
     
 #     write('teeeeeeeeeeest.txt', [2, ' sss dfsga ', '\n\n mdmsdonhf   '])
     
