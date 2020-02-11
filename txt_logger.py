@@ -2,6 +2,53 @@
 
 DEFAULT_HEADER_MARK = ': '
 
+
+
+
+
+''' VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV '''
+'''                                                                           
+        Simple / General Use
+'''
+''' VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV '''
+
+
+def read(filePath):
+    with open(filePath) as textFile:  # can throw FileNotFoundError
+        return tuple(l.rstrip() for l in textFile.readlines())
+        
+
+# line_l = each element will be written as a new line in the txt file,
+#          line_l[0] will be first line in the file,
+#          elements can be any type, will be converted to str before writing
+def write(filePath, line_l):
+    # convert all elements to str
+    str_converted_line_l = []
+    for line in line_l:
+        str_converted_line_l.append(str(line))
+    
+    # write lines to file
+    writeFile = open(filePath, "w") 
+
+    for line_num, line in enumerate(str_converted_line_l):
+        writeFile.write(line)
+        
+        # do not write newline if you just wrote the last line
+        if line_num != len(str_converted_line_l) - 1:
+            writeFile.write('\n')
+ 
+    writeFile.close() #to change file access modes 
+  
+
+
+
+
+''' VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV '''
+'''                                                                           
+        Variable Logger - Prettier than Json Dictionary Log
+'''
+''' VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV '''
+
 #
 
 # MOST SIMPLE WRITE FUNCTION, MOSTLY HERE FOR EXAMPLE PURPOSES
@@ -173,35 +220,7 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
         return logDict
 
 
-def read(filePath):
-    with open(filePath) as textFile:  # can throw FileNotFoundError
-        return tuple(l.rstrip() for l in textFile.readlines())
-        
 
-# line_l = each element will be written as a new line in the txt file,
-#          line_l[0] will be first line in the file,
-#          elements can be any type, will be converted to str before writing
-def write(filePath, line_l):
-    # convert all elements to str
-    str_converted_line_l = []
-    for line in line_l:
-        str_converted_line_l.append(str(line))
-    
-    # write lines to file
-    writeFile = open(filePath, "w") 
-
-    for line_num, line in enumerate(str_converted_line_l):
-        writeFile.write(line)
-        
-        # do not write newline if you just wrote the last line
-        if line_num != len(str_converted_line_l) - 1:
-            writeFile.write('\n')
-
-
-
- 
-    writeFile.close() #to change file access modes 
-  
     
     
     
