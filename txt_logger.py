@@ -177,13 +177,41 @@ def read(filePath):
     with open(filePath) as textFile:  # can throw FileNotFoundError
         return tuple(l.rstrip() for l in textFile.readlines())
         
+
+# line_l = each element will be written as a new line in the txt file,
+#          line_l[0] will be first line in the file,
+#          elements can be any type, will be converted to str before writing
+def write(filePath, line_l):
+    # convert all elements to str
+    str_converted_line_l = []
+    for line in line_l:
+        str_converted_line_l.append(str(line))
+    
+    # write lines to file
+    writeFile = open(filePath, "w") 
+
+    for line_num, line in enumerate(str_converted_line_l):
+        writeFile.write(line)
+        
+        # do not write newline if you just wrote the last line
+        if line_num != len(str_converted_line_l) - 1:
+            writeFile.write('\n')
+
+
+
+ 
+    writeFile.close() #to change file access modes 
+  
     
     
     
     
     
+if __name__ == '__main__':
     
-# if __name__ == '__main__':
+#     write('teeeeeeeeeeest.txt', [2, ' sss dfsga ', '\n\n mdmsdonhf   '])
+    
+    
 #     filename0 = 'examples/txt_logger_examples/colorList.txt'
 #        
 #     headerOrderList0 = ['color1', 'color2', 'color3']    
