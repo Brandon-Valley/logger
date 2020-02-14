@@ -38,6 +38,7 @@ def log_vars(log_dict, json_file_path):
     
     
 def write(data, output_file_path, indent = 4):
+    fsu.make_file_if_not_exist(output_file_path)
     with open(output_file_path, 'w') as outfile:  
         json.dump(data, outfile, indent = indent)
 
@@ -77,7 +78,7 @@ if __name__ == '__main__':
     })
     # 
     #     
-    write(data,'missing_dir//json_test.jsond')
+#     write(data,'missing_dir//json_test.jsond')
 #     print(read('json_test.jsond'))
     # print(read('project_vars.json'))
     

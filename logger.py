@@ -95,6 +95,7 @@ def readCSV(csvPath):
 
 
 def write2CSV(logDictList, csvPath, headerList = None):
+    fsu.make_file_if_not_exist(csvPath)
     # if headerList == None, then fieldnames will be in a random order
     fieldnames = []
     if headerList == None:

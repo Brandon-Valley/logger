@@ -55,6 +55,7 @@ def read(filePath):
 
 def write(lines, filePath, write_mode = 'overwrite'):
     eu.error_if_param_key_not_in_whitelist(write_mode, ['overwrite', 'append'])
+    fsu.make_file_if_not_exist(filePath)
     
     # convert to str
     if type(lines) == list:
