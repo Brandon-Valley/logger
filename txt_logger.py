@@ -1,7 +1,7 @@
 ''' -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- All Utilities Standard Header -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- '''
 import sys, os    ;     sys.path.insert(1, os.path.join(sys.path[0], os.path.dirname(os.path.abspath(__file__)))) # to allow for relative imports, delete any imports under this line
 
-util_submodule_l = ['exception_utils']  # list of all imports from local util_submodules that could be imported elsewhere to temporarily remove from sys.modules
+util_submodule_l = ['exception_utils', 'file_system_utils']  # list of all imports from local util_submodules that could be imported elsewhere to temporarily remove from sys.modules
 
 # temporarily remove any modules that could conflict with this file's local util_submodule imports
 og_sys_modules = sys.modules    ;    pop_l = [] # save the original sys.modules to be restored at the end of this file
@@ -12,8 +12,8 @@ util_submodule_import_check_count = 0 # count to make sure you don't add a local
 
 ''' -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- All Utilities Standard: Local Utility Submodule Imports  -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- '''
 
-# import custom_exception as ce                                         ; util_submodule_import_check_count += 1
-from util_submodules.exception_utils import exception_utils as eu     ; util_submodule_import_check_count += 0
+from util_submodules.exception_utils   import exception_utils as eu       ; util_submodule_import_check_count += 1
+from util_submodules.file_system_utils import file_system_utils as fsu    ; util_submodule_import_check_count += 1
 
 
 ''' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ '''
@@ -54,7 +54,7 @@ def read(filePath):
 #          elements can be any type, will be converted to str before writing
 
 def write(lines, filePath, write_mode = 'overwrite'):
-    eu.error_if_param_invalid(write_mode, ['overwrite', 'append'])
+    eu.error_if_param_key_not_in_whitelist(write_mode, ['overwrite', 'append'])
     
     # convert to str
     if type(lines) == list:
@@ -265,7 +265,10 @@ def readVars(filePath, wantHeaderOrderList = False, headerMark = DEFAULT_HEADER_
     
     
     
-    
+         
+''' -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- All Utilities Standard Footer -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- '''
+sys.modules = og_sys_modules
+''' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ '''
 if __name__ == '__main__':
     print('In Main:  txt_logger')
     
@@ -306,7 +309,7 @@ if __name__ == '__main__':
 #         
 #         
         
-print('End of Main:  txt_logger')
+    print('End of Main:  txt_logger')
     
     
     
