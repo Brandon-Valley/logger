@@ -274,7 +274,7 @@ if __name__ == '__main__':
     print('In Main:  txt_logger')
     
 #     write('teeeeeeeeeeest.txt', [2, ' sss dfsga ', '\n\n mdmsdonhf   '])
-    write('teeeeeeeeeeest.txt', 'sdiondfolwsdnoilfn')
+#     write('teeeeeeeeeeest.txt', 'sdiondfolwsdnoilfn')
     
     
 #     filename0 = 'examples/txt_logger_examples/colorList.txt'
