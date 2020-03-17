@@ -58,7 +58,7 @@ def write(lines, filePath, write_mode = 'overwrite'):
     fsu.make_file_if_not_exist(filePath)
     
     # convert to str
-    if type(lines) == list:
+    if type(lines) == list or type(lines) == tuple:
         str_converted_lines = []
         for line in lines:
             str_converted_lines.append(str(line))
