@@ -45,7 +45,9 @@ DEFAULT_HEADER_MARK = ': '
 
 def read(filePath):
     with open(filePath) as textFile:  # can throw FileNotFoundError
-        return list(l.rstrip() for l in textFile.readlines())
+        out =  list(l.rstrip() for l in textFile.readlines())
+    textFile.close()
+    return out;
         
 
 # lines  = if not a list, will convert to string and write it as one line,
