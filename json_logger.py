@@ -42,11 +42,11 @@ def write(data, output_file_path, indent = 4):
      
     with open(output_file_path, 'w') as outfile:  
          
-        # if data is a namedtuple, write it as a dict
-        if isinstance(data, tuple) and hasattr(data, '_asdict'):
-            json.dump(data._asdict(), outfile, indent = indent)
-        else:
-            json.dump(data, outfile, indent = indent)
+#         # if data is a namedtuple, write it as a dict
+#         if isinstance(data, tuple) and hasattr(data, '_asdict'):
+#             json.dump(data._asdict(), outfile, indent = indent)
+#         else:
+        json.dump(data, outfile, indent = indent)
  
  
 def read(json_file_path):
