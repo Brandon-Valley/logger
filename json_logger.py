@@ -41,25 +41,19 @@ def write(data, output_file_path, indent = 4):
     fsu.make_file_if_not_exist(output_file_path)
      
     with open(output_file_path, 'w') as outfile:  
-         
-#         # if data is a namedtuple, write it as a dict
-#         if isinstance(data, tuple) and hasattr(data, '_asdict'):
-#             json.dump(data._asdict(), outfile, indent = indent)
-#         else:
         json.dump(data, outfile, indent = indent)
+        outfile.close()
+ 
  
  
 def read(json_file_path):
     with open(json_file_path, "r") as read_file:
         data = json.load(read_file)
+        read_file.close()
     return data
      
      
-     
-def read_fast(json_file_path):
-    with open(json_file_path, "r") as read_file:
-        return json.load(read_file)
- 
+
  
  
 ''' -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- All Utilities Standard Footer -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- '''
