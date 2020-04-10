@@ -46,14 +46,38 @@ def write(data, output_file_path, indent = 4):
  
  
  
-def read(json_file_path):
+def read(json_file_path, return_if_file_not_found = "raise_exception"):
+#     with open(json_file_path, "r") as read_file:
+#         
+#         if return_if_file_not_found != "raise_exception":
+#             try:
+#                 data = json.load(read_file)
+#             except FileNotFoundError:
+#                 return return_if_file_not_found
+#         else:
+#             data = json.load(read_file)
+#             
+#         read_file.close()
+
+    try:
+        with open(json_file_path, "r") as read_file:
+            data = json.load(read_file)           
+        read_file.close()
+    except FileNotFoundError as e:
+        if return_if_file_not_found != "raise_exception":
+            return return_if_file_not_found
+        else:
+            raise e
+        
+    return data
+     
+     
+     
+def read_fast(json_file_path):
     with open(json_file_path, "r") as read_file:
         data = json.load(read_file)
         read_file.close()
     return data
-     
-     
-
  
  
 ''' -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- All Utilities Standard Footer -- VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV -- '''
