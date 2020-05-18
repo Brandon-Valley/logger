@@ -1,11 +1,13 @@
-import jsonplus__non_merged as json
+
 import os.path
  
  
 if __name__ == "__main__": 
-    from   usms.file_system_utils import file_system_utils as fsu
+    from   usms.file_system_utils import file_system_utils    as fsu
+    import                               jsonplus__non_merged as json
 else:
-    from . usms.file_system_utils import file_system_utils as fsu
+    from . usms.file_system_utils import file_system_utils    as fsu
+    from . import                        jsonplus__non_merged as json
     
     
  
