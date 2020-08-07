@@ -96,7 +96,7 @@ def write2CSV(logDictList, csvPath, headerList = None, headerReplaceDict = None)
         for header, data in logDictList[0].items():
             fieldnames.append(header)
     else:
-        for header, data in logDictList[0].items():
+        for header in headerList:
             
             if headerReplaceDict == None or header not in headerReplaceDict.keys():
                 fieldnames.append(header)
