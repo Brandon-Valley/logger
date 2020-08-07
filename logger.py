@@ -81,15 +81,44 @@ def readCSV(csvPath):
     return dataDictList
 
 
-def write2CSV(logDictList, csvPath, headerList = None):
+
+def write2CSV(logDictList, csvPath, headerList = None, headerReplaceDict = None):
+    '''
+        if using both headerList and headerReplaceDict, headerList will use the original headers
+        
+        headerReplaceDict: key = original header, value = new replacement header
+    '''
     fsu.make_file_if_not_exist(csvPath)
+    
     # if headerList == None, then fieldnames will be in a random order
     fieldnames = []
     if headerList == None:
         for header, data in logDictList[0].items():
             fieldnames.append(header)
     else:
-        fieldnames = headerList
+        for header, data in logDictList[0].items():
+            
+            if headerReplaceDict == None or header not in headerReplaceDict.keys():
+                fieldnames.append(header)
+            else:
+                fieldnames.append(headerReplaceDict[header])
+        
+    # replace headers if needed
+    if headerReplaceDict != None:
+        replacedHeadersLogDictList = []
+        
+        for ogDict in logDictList:
+            replacedHeaderDict = {}
+            
+            for ogKey, ogVal in ogDict.items():
+                if ogKey in headerReplaceDict.keys():
+                    replacedHeaderDict[headerReplaceDict[ogKey]] = ogVal
+                else:
+                    replacedHeaderDict[ogKey] = ogVal
+            
+            replacedHeadersLogDictList.append(replacedHeaderDict)
+        
+        logDictList = replacedHeadersLogDictList
         
     # if csvPath points to a file in dirs that don't exist, make the dirs
     parentDirPath = os.path.dirname(csvPath)
@@ -97,8 +126,8 @@ def write2CSV(logDictList, csvPath, headerList = None):
         os.makedirs(parentDirPath)
         
     
-    with open(csvPath, 'wt', encoding='utf8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator = '\n')
+    with open(csvPath, 'wt', encoding = 'utf8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames = fieldnames, lineterminator = '\n')
         writer.writeheader()
          
         #build rowDictList
