@@ -9,6 +9,7 @@
 # of all the data you want to log, then logging it all at once.  Therefore you should try to always use
 # logList() instead of logSingle() 
 
+import pandas as pd
 import csv
 import os.path
 import os
@@ -82,12 +83,34 @@ def readCSV(csvPath):
 
 
 
+def csv2Xlsx(csvPath):
+    
+    if not csvPath[-4:] == '.csv':
+        raise Exception('ERROR:  csvPath must end with ".csv", given csvPath: ', csvPath)
+    
+    xlsxPath = csvPath[:-4] + '.xlsx'    
+    
+    pd.read_csv(csvPath, delimiter=",").to_excel(xlsxPath, index=False)
+    
+    fsu.delete_if_exists(csvPath)
+
+
+
 def write2CSV(logDictList, csvPath, headerList = None, headerReplaceDict = None):
     '''
         if using both headerList and headerReplaceDict, headerList will use the original headers
         
         headerReplaceDict: key = original header, value = new replacement header
     '''
+    
+#     # in case given .xlsx for csvPath
+#     convert_to_xlsx = False
+#      
+#     if csvPath[-4:] == '.xlsx':
+#         csvPath = csvPath[:-4] + '.csv'
+#         convert_to_xlsx = True
+    
+    # make file with all nested dirs
     fsu.make_file_if_not_exist(csvPath)
     
     # if headerList == None, then fieldnames will be in a random order
@@ -149,6 +172,11 @@ def write2CSV(logDictList, csvPath, headerList = None, headerReplaceDict = None)
                 raise TypeError('ERROR:  HeaderList does not match headers in dataDict, probably misspelled or forgot to add key:  ' + '\n' + str(e) + '\n' + 'fieldnames:  ' + str(fieldnames))
  
     csvfile.close()
+    
+#     if convert_to_xlsx:
+#         import time
+#         time.sleep(1)
+#         csv2Xlsx(csvPath)
        
 
 def backup(csvData, csvPath):
@@ -238,6 +266,8 @@ def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction, headerList
 
 if __name__ == '__main__':
     print('In Main:  logger')
+    
+    csv2Xlsx("C:\\projects\\pg\\bradley_courses_2_csvs\\outputs\\bcc_approved_courses_page_CSVs\\Communication.csv")
 
 # print('TESTING IN LOGGER...')
 # full_path = os.path.realpath(__file__)
