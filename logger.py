@@ -9,10 +9,14 @@
 # of all the data you want to log, then logging it all at once.  Therefore you should try to always use
 # logList() instead of logSingle() 
 
-import pandas as pd
 import csv
 import os.path
 import os
+
+try:
+    import pandas as pd
+except:
+    pass
 
 
 if __name__ == "__main__": 
