@@ -4,14 +4,13 @@ import os.path
  
 if __name__ == "__main__": 
     from   usms.file_system_utils import file_system_utils    as fsu
-    import                               jsonplus__non_merged as json
 else:
     from . usms.file_system_utils import file_system_utils    as fsu
-    from . import                        jsonplus__non_merged as json
     
+import json
     
  
-# changes values of headers already in the file, and appends lines with new headers to the end, or creates new file if dosn't already exist
+# changes values of headers already in the file, and appends lines with new headers to the end, or creates new file if doesn't already exist
 def log_vars(log_dict, json_file_path):
     if os.path.isfile(json_file_path): 
         json_data = read(json_file_path)
