@@ -30,7 +30,7 @@ def read(filePath):
 #          lines[0] will be first line in the file,
 #          elements can be any type, will be converted to str before writing
 
-def write(lines, filePath, write_mode = 'overwrite'):
+def write(lines, filePath, write_mode = 'overwrite', encoding = "utf-8"):
     eu.error_if_param_key_not_in_whitelist(write_mode, ['overwrite', 'append'])
     fsu.make_file_if_not_exist(filePath)
     
@@ -44,17 +44,21 @@ def write(lines, filePath, write_mode = 'overwrite'):
     
     # write lines to file
     if   write_mode == 'overwrite':
-        writeFile = open(filePath, "w") 
+        write_mode_char = "w"
     elif write_mode == 'append':
-        writeFile = open(filePath, "a")
+        write_mode_char = "a"
+    else:
+        raise Exception("ERROR: Invalid write_mode: " + write_mode)
 
-    for line_num, line in enumerate(str_converted_lines):
-        writeFile.write(line)
-        
-        # do not write newline if you just wrote the last line
-        if line_num != len(str_converted_lines) - 1:
-            writeFile.write('\n')
- 
+    with open(filePath, write_mode_char, encoding = encoding) as writeFile:
+
+        for line_num, line in enumerate(str_converted_lines):
+            writeFile.write(line)
+            
+            # do not write newline if you just wrote the last line
+            if line_num != len(str_converted_lines) - 1:
+                writeFile.write('\n')
+    
     writeFile.close() #to change file access modes 
   
 
