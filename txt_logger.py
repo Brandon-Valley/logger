@@ -30,7 +30,8 @@ def read(filePath):
 #          lines[0] will be first line in the file,
 #          elements can be any type, will be converted to str before writing
 
-def write(lines, filePath, write_mode = 'overwrite', encoding = "utf-8"):
+def write(lines, filePath, write_mode = 'overwrite', encoding = "utf-8", decoding = False):
+    ''' If writing unrecognizable chars, try decoding = "ascii" '''
     eu.error_if_param_key_not_in_whitelist(write_mode, ['overwrite', 'append'])
     fsu.make_file_if_not_exist(filePath)
     
@@ -41,7 +42,12 @@ def write(lines, filePath, write_mode = 'overwrite', encoding = "utf-8"):
             str_converted_lines.append(str(line))
     else:
         str_converted_lines = [str(lines)]
-    
+
+    # Decode if needed
+    if decoding and encoding:
+        for str_converted_line_num, str_converted_line in enumerate(str_converted_lines):
+            str_converted_lines[str_converted_line_num] = bytes(str_converted_line, encoding).decode(decoding, 'ignore')
+
     # write lines to file
     if   write_mode == 'overwrite':
         write_mode_char = "w"
