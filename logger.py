@@ -271,33 +271,30 @@ def buildCSVdata(dataContainer, csvPath, wantBackup, overwriteAction, headerList
 if __name__ == '__main__':
     print('In Main:  logger')
     
-    csv2Xlsx("C:\\projects\\pg\\bradley_courses_2_csvs\\outputs\\bcc_approved_courses_page_CSVs\\Communication.csv")
+    # csv2Xlsx("C:\\projects\\pg\\bradley_courses_2_csvs\\outputs\\bcc_approved_courses_page_CSVs\\Communication.csv")
 
-# print('TESTING IN LOGGER...')
-# full_path = os.path.realpath(__file__)
-# csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
-#   
-# wantBackup = True
-#   
-# headerList = ['Time/Date', 'User_Name', 'Tweet', 'extra_header']
-#    
-# tweetLogDict = {'Time/Date': '11:47pm on saterday',
-#                 'User_Name': '@sagmanblablatest3',     
-#                 'Tweet'    : 'my name is sagman'}
-#     
-# tweetLogDictList = [{'Time/Date': '11:34pm on monday',
-#                      'User_Name': '@bob',     
-#                      'Tweet':     'my name is bob and this is a test'},
-#                         
-#                     {'Time/Date': '12:35pm on tuesday',
-#                      'User_Name': '@jill',     
-#                      'Tweet':     'my name is jill and im the worst'}] 
-#              
-# # logList(tweetLogDictList, csvPath, wantBackup, headerList, 'append')         
-# logSingle(tweetLogDict, csvPath, wantBackup, headerList, 'append')
-# print('DONE TESTING IN LOGGER')
-
-          
-#         
+    print('TESTING IN LOGGER...')
+    full_path = os.path.realpath(__file__)
+    csvPath =  os.path.dirname(full_path) + '\\tweet_log.csv' 
+    
+    wantBackup = True
+    
+    headerList = ['Time/Date', 'User_Name', 'Tweet', 'extra_header']
+    
+    tweetLogDict = {'Time/Date': '11:47pm on saterday',
+                    'User_Name': '@sagmanblablatest3',     
+                    'Tweet'    : 'my name is sagman'}
         
+    tweetLogDictList = [{'Time/Date': '11:34pm on monday',
+                        'User_Name': '@bob',     
+                        'Tweet':     'my name is bob and this is a test'},
+                            
+                        {'Time/Date': '12:35pm on tuesday',
+                        'User_Name': '@jill',     
+                        'Tweet':     'my name is jill and im the worst'}] 
+                
+    # logList(tweetLogDictList, csvPath, wantBackup, headerList, 'append')         
+    logSingle(tweetLogDict, csvPath, wantBackup, headerList, 'append')
+    print('DONE TESTING IN LOGGER')
+
     print('End of Main:  logger')

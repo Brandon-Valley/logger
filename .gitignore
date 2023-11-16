@@ -255,3 +255,5 @@ dmypy.json
 # Pyre type checker
 
 .pyre/
+
+tweet_log.csv
